@@ -27,9 +27,16 @@ const deletarCliente = (id) =>{
          method: 'DELETE'
    })
 }
+
+const detalhaCliente = (id) =>{
+   return fetch(`http://localhost:3000/profile/${id}`).then(res => {
+      return res.json()
+   })
+}
    
 export const clienteService = {
    listaClientes,
-   criaCliente, 
+   criaCliente,
+   detalhaCliente, 
    deletarCliente
 }
