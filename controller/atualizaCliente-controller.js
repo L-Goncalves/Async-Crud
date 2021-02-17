@@ -1,17 +1,32 @@
 import {clienteService } from '../service/cliente-service.js'
 
-const pegaUrl = new URL(window.location)
 
-const id = pegaUrl.searchParams.get('id');
+(async ()=>{
+    const pegaUrl = new URL(window.location)
 
-const inputNome = document.querySelector('[data-nome]');
-const inputEmail= document.querySelector('[data-email]');
+    const id = pegaUrl.searchParams.get('id');
+    
+    const inputNome = document.querySelector('[data-nome]');
+    const inputEmail= document.querySelector('[data-email]');
+    
+     const dados = await clienteService.detalhaCliente(id)
+     inputNome.value = dados.nome
+     inputEmail.value = dados.email
+        
+    
+    
+    const formulario = document.querySelector('[data-form]');
+    
+    formulario.addEventListener('submit', async(e) =>{
+        e.preventDefault()
+        console.log(id, inputNome.value, inputEmail.value)
+    
+        await clienteService.atualizaCliente(id, inputNome.value, inputEmail.value)
+        
+        window.location.href = "/telas/edicao_concluida.html"
+       
+    })
+    
+    console.log(id)
+})()
 
-clienteService.detalhaCliente(id).then(
-    dados =>{
-        inputNome.value = dados.nome
-        inputEmail.value = dados.email
-    }
-)
-
-console.log(id)
